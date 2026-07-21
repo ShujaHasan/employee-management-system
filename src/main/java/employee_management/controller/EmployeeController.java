@@ -1,6 +1,7 @@
 package employee_management.controller;
 
 import employee_management.Service.EmployeeService;
+import employee_management.dto.EmployeeResponseDTO;
 import employee_management.model.Employee;
 import employee_management.model.repository.EmployeeRepository;
 import jakarta.validation.Valid;
@@ -36,7 +37,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public Employee getEmployeeById(@PathVariable int id){
+    public EmployeeResponseDTO getEmployeeById(@PathVariable int id){
         return employeeService.getEmployeeById(id);
     }
 
