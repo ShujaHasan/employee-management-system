@@ -6,7 +6,8 @@ import employee_management.model.Employee;
 import employee_management.model.repository.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getAllEmployees(){
-        return employeeService.getAllEmployees();
+    public Page<EmployeeResponseDTO> getAllEmployees(Pageable pageable){
+        return employeeService.getAllEmployees(pageable);
     }
 
     @GetMapping("/employees/{id}")
