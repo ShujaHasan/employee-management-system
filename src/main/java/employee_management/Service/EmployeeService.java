@@ -1,8 +1,13 @@
 package employee_management.Service;
 
+import employee_management.dto.EmployeeResponseDTO;
 import employee_management.model.Employee;
 import employee_management.model.repository.EmployeeRepository;
+import employee_management.exception.EmployeeNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,9 +16,12 @@ import java.util.Optional;
 public class EmployeeService {
 
      private final EmployeeRepository repository;
+     private final ModelMapper modelMapper;
 
-     EmployeeService(EmployeeRepository repository){
+
+    EmployeeService(EmployeeRepository repository, ModelMapper modelMapper){
          this.repository = repository;
+         this.modelMapper = modelMapper;
      }
 
         public String message(){
@@ -24,17 +32,19 @@ public class EmployeeService {
          return repository.save(employee);
     }
 
-    public List<Employee> getAllEmployees(){
-         return repository.findAll();
-    }
+    public EmployeeResponseDTO getEmployeeById(Integer id){
+        Employee employee = repository.findById(id)
+                .orElseThrow(()->
+                    new EmployeeNotFoundException("Employee not found"));
 
-    public Employee getEmployeeById(int id){
-        Optional<Employee> employee = repository.findById(id);
+//         if (employee.isPresent()){
+//             return employee.get();
+//         }
+//         throw new EmployeeNotFoundException(
+//                 "Employee with ID " + id + " Not found."
+//         );
 
-         if (employee.isPresent()){
-             return employee.get();
-         }
-         return null;
+        return modelMapper.map(employee, EmployeeResponseDTO.class);
     }
 
     public Employee updateEmployee(int id, Employee updatedEmployee){
@@ -67,6 +77,8 @@ public class EmployeeService {
          }
          return "Employee not found";
     }
+
+
 
 
 
