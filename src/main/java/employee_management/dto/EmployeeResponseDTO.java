@@ -1,17 +1,19 @@
 package employee_management.dto;
 
+import employee_management.model.Department;
+
 public class EmployeeResponseDTO {
 
     private Integer id;
     private String name;
     private String email;
-    private String department;
+    private Department department;
     private String role;
 
     public EmployeeResponseDTO() {
     }
 
-    public EmployeeResponseDTO(Integer id, String name, String email, String department, String role) {
+    public EmployeeResponseDTO(Integer id, String name, String email, Department department, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -38,7 +40,7 @@ public class EmployeeResponseDTO {
         return role;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
@@ -54,7 +56,7 @@ public class EmployeeResponseDTO {
         this.email = email;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
