@@ -42,6 +42,21 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
+    @GetMapping("employees/role/{role}")
+    public List<EmployeeResponseDTO> getEmployeeByRole(@PathVariable String role){
+        return employeeService.getEmployeesByRole(role);
+    }
+
+    @GetMapping("employees/salary/greater/{salary}")
+    public List<EmployeeResponseDTO> getEmployeeBySalary(@PathVariable double salary){
+        return employeeService.getEmployeeBySalary(salary);
+    }
+
+    @GetMapping("employees/department/{department}/role/{role}")
+    public List<EmployeeResponseDTO> getEmployeeByDepartmentAndRole(@PathVariable String department, @PathVariable String role) {
+        return employeeService.getEmployeeByDepartmentAndRole(department, role);
+    }
+
     @PutMapping("/employees/{id}")
     public Employee updateEmployee(@PathVariable int id, @RequestBody Employee employee){
         return employeeService.updateEmployee(id, employee);
