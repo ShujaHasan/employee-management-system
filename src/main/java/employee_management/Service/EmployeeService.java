@@ -31,6 +31,39 @@ public class EmployeeService {
     public Employee addEmployee(Employee employee){
          return repository.save(employee);
     }
+//
+    public Page<EmployeeResponseDTO> getAllEmployees(Pageable pageable){
+         Page<Employee> employees = repository.findAll(pageable);
+
+         return employees.map(employee ->
+                 modelMapper.map(employee, EmployeeResponseDTO.class ));
+    }
+
+    public List<EmployeeResponseDTO> getEmployeesByRole(String role){
+
+        List<Employee> employees = repository.findByRole(role);
+
+        return employees.stream()
+                .map(employee -> modelMapper.map(employee, EmployeeResponseDTO.class))
+                .toList();
+    }
+
+    public List<EmployeeResponseDTO> getEmployeeBySalary(double salary){
+        List<Employee> employees = repository.findBySalaryGreaterThan(salary);
+
+        return employees.stream()
+                .map(employee -> modelMapper.map(employee, EmployeeResponseDTO.class))
+                .toList();
+    }
+
+    public List<EmployeeResponseDTO> getEmployeeByDepartmentAndRole(String department, String role){
+
+        List<Employee> employees = repository.findByDepartmentAndRole(department, role);
+
+        return employees.stream()
+                .map(employee -> modelMapper.map(employee, EmployeeResponseDTO.class))
+                .toList();
+    }
 
     public EmployeeResponseDTO getEmployeeById(Integer id){
         Employee employee = repository.findById(id)
