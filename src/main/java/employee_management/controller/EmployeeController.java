@@ -1,18 +1,16 @@
 package employee_management.controller;
 
+import employee_management.Service.DepartmentService;
 import employee_management.Service.EmployeeService;
 import employee_management.dto.EmployeeResponseDTO;
+import employee_management.model.Department;
 import employee_management.model.Employee;
-import employee_management.model.repository.EmployeeRepository;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-
-
-import java.security.PublicKey;
 
 @RestController
 public class EmployeeController {
@@ -66,5 +64,7 @@ public class EmployeeController {
     public String deleteEmployee(@PathVariable int id){
         return employeeService.deleteEmployee(id);
     }
+
+
 
 }

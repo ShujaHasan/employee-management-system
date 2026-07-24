@@ -1,9 +1,10 @@
 package employee_management.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+
+import java.util.List;
+
 @Entity
 public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,12 @@ public class Employee {
     private String phoneNumber;
 
     private String address;
-    private String department;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    @JsonIgnore
+    private Department department;
+
     private String role;
 
     @Positive(message = "Salary must be positive!")
@@ -33,7 +39,7 @@ public class Employee {
     }
 
     public Employee(String name, String dob, String email, String phoneNumber,
-                    String address, String department, String role, double salary) {
+                    String address, Department department, String role, double salary) {
         this.name = name;
         this.dob = dob;
         this.email = email;
@@ -43,6 +49,7 @@ public class Employee {
         this.role = role;
         this.salary = salary;
     }
+
 
     public int getId() {
         return id;
@@ -68,7 +75,7 @@ public class Employee {
         return address;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
@@ -104,7 +111,7 @@ public class Employee {
         this.address = address;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
@@ -115,5 +122,8 @@ public class Employee {
     public void setSalary(double salary) {
         this.salary = salary;
     }
+
+
+
 }
 
