@@ -1,7 +1,9 @@
 package employee_management.Service;
 
 import employee_management.dto.EmployeeResponseDTO;
+import employee_management.model.Department;
 import employee_management.model.Employee;
+import employee_management.model.repository.DepartmentRepository;
 import employee_management.model.repository.EmployeeRepository;
 import employee_management.exception.EmployeeNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -17,18 +19,26 @@ public class EmployeeService {
 
      private final EmployeeRepository repository;
      private final ModelMapper modelMapper;
+     private final DepartmentRepository departmentRepository;
 
 
-    EmployeeService(EmployeeRepository repository, ModelMapper modelMapper){
+    EmployeeService(EmployeeRepository repository, ModelMapper modelMapper, DepartmentRepository departmentRepository){
          this.repository = repository;
          this.modelMapper = modelMapper;
-     }
+        this.departmentRepository = departmentRepository;
+    }
 
         public String message(){
         return "Repository Connected!";
     }
 
     public Employee addEmployee(Employee employee){
+
+         Department department = departmentRepository.findById(employee.getDepartment().getId())
+                 .orElseThrow(() -> new RuntimeException("Department ID " + employee.getDepartment().getId() + " does not exist!"));
+
+         employee.setDepartment(department);
+
          return repository.save(employee);
     }
 //
@@ -106,13 +116,10 @@ public class EmployeeService {
          if (employee.isPresent()){
              repository.delete(employee.get());
 
-             return "Employee deleted scucesfully!";
+
          }
          return "Employee not found";
     }
-
-
-
-
+    
 
 }
